@@ -1,8 +1,9 @@
 package com;
 
+import javax.swing.*;
 import java.util.Arrays;
 
-public class Card {
+public class Card{
     private final boolean blackCard;
     private final String text;
     private String instructions;
