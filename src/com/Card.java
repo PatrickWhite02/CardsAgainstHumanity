@@ -1,8 +1,10 @@
 package com;
 
+import java.util.Arrays;
+
 public class Card {
-    private boolean blackCard = false;
-    private String text;
+    private final boolean blackCard;
+    private final String text;
     private String instructions;
     public Card(String type, String text, String instructions){
         this.blackCard=type.equals("Prompt");
@@ -12,5 +14,17 @@ public class Card {
     public Card(String type, String text){
         this.blackCard=type.equals("Prompt");
         this.text = text;
+    }
+    public String getCard(){
+        return Arrays.toString(new String[]{text, blackCard + "", instructions});
+    }
+    public String getText(){
+        return text;
+    }
+    public boolean getBlackCard(){
+        return blackCard;
+    }
+    public String getInstructions(){
+        return instructions;
     }
 }
