@@ -10,6 +10,12 @@ public class PlayersHand extends ArrayList<Card> {
     public PlayersHand(){
         this.addAll(Arrays.asList(deck.drawFive()));
     }
+    public void drawCard(){
+        add(deck.drawOne());
+    }
+    public void discard(Card c){
+        remove(c);
+    }
     public ArrayList<Card> getCards(){
         return this;
     }
