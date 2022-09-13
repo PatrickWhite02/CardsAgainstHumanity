@@ -13,7 +13,7 @@ public class UserThread extends Thread{
     }
 
     private PrintWriter printWriter;
-    private ArrayList<UserThread> opponents;
+    private ArrayList<UserThread> opponents = new ArrayList<>();
     public void addOpponent(UserThread ut){
         opponents.add(ut);
     }
@@ -30,34 +30,28 @@ public class UserThread extends Thread{
             //first for loop handles game connections, this loop will break once I find a game
             while(true){
                 String response = reader.readLine();
-                int tag = Integer.parseInt(reader.readLine());
+                System.out.println(response);
                 //signal that user is hosting
-                if(response.equals("H")){
-                    //second input will be the tag
-                    if(!server.getAllUsersHashMap().containsKey(tag)){
-                        //print whether or not they were successful
-                        printWriter.println("1");
-                        ArrayList<UserThread> game = new ArrayList<>();
-                        game.add(this);
-                        server.getAllUsersHashMap().put(tag, game);
-                        break;
-                    }else{
-                        //error code for taken
-                        printWriter.println("0");
-                    }
-                }else{
+                if(response.equals("J")){
+                    int tag = Integer.parseInt(reader.readLine());
+                    System.out.println(tag);
                     if(server.getAllUsersHashMap().containsKey(tag)){
                         if(server.getAllUsersHashMap().get(tag).size() == 10){
                             //error code for game full
                             printWriter.println("-1");
                         }else {
+
                             //code for game connected
                             printWriter.println("1");
+                            //print the number of opponents
+                            printWriter.println("O:" + (server.getAllUsersHashMap().get(tag).size() - 1));
                             for (UserThread ut : server.getAllUsersHashMap().get(tag)) {
                                 ut.addOpponent(this);
                                 addOpponent(ut);
                                 //let them know someone joined
-                                ut.getPrintWriter().println("OJ");
+                                if(ut != this){
+                                    ut.getPrintWriter().println("OJ");
+                                }
                             }
                             break;
                         }
@@ -66,10 +60,28 @@ public class UserThread extends Thread{
                         printWriter.println("0");
                     }
                 }
+                else{
+                    int tag = Integer.parseInt(response);
+                    //second input will be the tag
+                    if(!server.getAllUsersHashMap().containsKey(tag)){
+                        //print whether or not they were successful
+                        printWriter.println("1");
+                        ArrayList<UserThread> game = new ArrayList<>();
+                        game.add(this);
+                        server.getAllUsersHashMap().put(tag, game);
+                        //number of opponents
+                        printWriter.println("O:0");
+                        break;
+                    }else{
+                        //error code for taken
+                        printWriter.println("0");
+                    }
+                }
             }
             //now that the user has a game, start echoing out to other users
             while(true){
                 String response = reader.readLine();
+                System.out.println(response);
                 //terminate
                 if(response.equals("T")){
                     for(UserThread ut : opponents){
@@ -78,7 +90,9 @@ public class UserThread extends Thread{
                     }
                 }
                 for(UserThread ut : opponents){
-                    ut.getPrintWriter().println(response);
+                    if(ut != this){
+                        ut.getPrintWriter().println(response);
+                    }
                 }
             }
         } catch (IOException e) {

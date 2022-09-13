@@ -93,4 +93,8 @@ public class Deck{
         blackDraw.putAll(blackDiscard);
         blackDiscard.clear();
     }
+    public void opponentTookWhiteCard(int i){
+        currentlyHeld.put(i, whiteDraw.get(i));
+        whiteDraw.remove(i);
+    }
 }
