@@ -1,36 +1,22 @@
 package com;
 
-import vis.VisCard;
-
-import javax.swing.*;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PlayersHand extends ArrayList<Card> {
+public class PlayersHand extends ArrayList<String> {
     Deck deck = new Deck();
 
-    public ArrayList<VisCard> getVisCards() {
-        return visCards;
-    }
-
-    ArrayList<VisCard> visCards = new ArrayList<>();
     public PlayersHand(){
-        this.addAll(Arrays.asList(deck.drawFive()));
-        for(Card c : this){
-            visCards.add(new VisCard(c));
-        }
+        this.addAll(Arrays.asList(deck.drawFiveWhite()));
     }
     public void drawCard(){
-        Card c = deck.drawOne();
+        String c = deck.drawOneWhite();
         add(c);
-        visCards.add(new VisCard(c));
     }
     public void discard(Card c){
         remove(c);
-        visCards.remove(this.indexOf(c));
     }
-    public ArrayList<Card> getCards(){
+    public ArrayList<String> getCards(){
         return this;
     }
 }

@@ -1,19 +1,14 @@
 package com;
 
-import vis.VisCard;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class Main extends JPanel {
-    VisCard [] visCards = new VisCard[10];
     PlayersHand playersHand = new PlayersHand();
     public Main (){
         this.setLayout(new GridLayout(10, 2));
         int i =0;
-        for(Card c : playersHand){
-            visCards[i] = new VisCard(c);
-            add(visCards[i]);
+        for(String c : playersHand){
             i++;
         }
     }
