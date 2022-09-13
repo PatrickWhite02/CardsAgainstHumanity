@@ -1,6 +1,6 @@
 package net.clientSide;
 
-import com.Deck;
+import common.Deck;
 
 import java.io.*;
 import java.net.Socket;

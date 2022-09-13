@@ -43,6 +43,7 @@ public class UserThread extends Thread{
 
                             //code for game connected
                             printWriter.println("1");
+                            server.getAllUsersHashMap().get(tag).add(this);
                             //print the number of opponents
                             printWriter.println("O:" + (server.getAllUsersHashMap().get(tag).size() - 1));
                             for (UserThread ut : server.getAllUsersHashMap().get(tag)) {
@@ -60,6 +61,7 @@ public class UserThread extends Thread{
                         printWriter.println("0");
                     }
                 }
+                //host
                 else{
                     int tag = Integer.parseInt(response);
                     //second input will be the tag

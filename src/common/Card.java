@@ -1,4 +1,4 @@
-package com;
+package common;
 
 import javax.swing.*;
 import java.util.Arrays;

@@ -1,12 +1,9 @@
-package com;
+package common;
 
 import net.clientSide.Client;
-import net.clientSide.WaitForOpponentThread;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Main extends JPanel {
@@ -60,11 +57,10 @@ public class Main extends JPanel {
         }
         if(whoTurn == myTurn){
             visibleHand.generateBlackCard();
-        }else{
-            System.out.println("Your cards: ");
-            for(Integer i : myHand.keySet()){
-                System.out.println(i + " " + myHand.get(i));
-            }
+        }
+        System.out.println("Your cards: ");
+        for(Integer i : myHand.keySet()){
+            System.out.println(i + " " + myHand.get(i));
         }
     }
 }

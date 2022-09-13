@@ -1,4 +1,4 @@
-package com;
+package common;
 
 import java.util.HashMap;
 
