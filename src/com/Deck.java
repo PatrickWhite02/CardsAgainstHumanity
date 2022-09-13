@@ -39,33 +39,35 @@ public class Deck{
             }
         }
     }
-    public String[] drawFiveWhite(){
-        String[] r = new String[5];
-        for(int i = 0; i < 5; i++){
+    public HashMap<Integer, String> drawTenWhite(){
+        HashMap<Integer, String> r = new HashMap<>();
+        for(int i = 0; i < 10; i++){
             //random index in our map
             int randomIndex = (int) (Math.random() * whiteDraw.size());
-            //add this object to our return array
-            r[i] = whiteDraw.get(randomIndex);
+            //add this object to our return map
+            r.put(randomIndex, whiteDraw.get(randomIndex));
             //move the card into the "Currently held" pile
             currentlyHeld.put(randomIndex, whiteDraw.get(randomIndex));
             whiteDraw.remove(randomIndex);
         }
-        if(whiteDraw.size() <= 5){
+        if(whiteDraw.size() <= 10){
             shuffleWhite();
         }
         return r;
     }
-    public String drawOneWhite(){
+    public HashMap<Integer, String> drawOneWhite(){
+        HashMap<Integer, String> r = new HashMap<>();
         int randomIndex = (int) (Math.random() * whiteDraw.size());
         //move the card to discard pile
         currentlyHeld.put(randomIndex, whiteDraw.get(randomIndex));
         whiteDraw.remove(randomIndex);
-        //reshuffle if the deck ever dips below 5
-        if(whiteDraw.size() <= 5){
+        //reshuffle if the deck ever dips below 10
+        if(whiteDraw.size() <= 10){
             shuffleWhite();
         }
         //return card
-        return(currentlyHeld.get(randomIndex));
+        r.put(randomIndex, currentlyHeld.get(randomIndex));
+        return r;
     }
     public void discardShowing(){
         whiteDiscard.putAll(currentlyHeld);
@@ -76,14 +78,16 @@ public class Deck{
         whiteDraw.putAll(whiteDiscard);
         whiteDiscard.clear();
     }
-    public String drawBlackCard(){
+    public HashMap<Integer, String> drawBlackCard(){
+        HashMap<Integer, String> r = new HashMap<>();
         int randomIndex  = (int) (Math.random() * blackDraw.size());
         blackDiscard.put(randomIndex, blackDraw.get(randomIndex));
         blackDraw.remove(randomIndex);
         if(blackDraw.size() <= 5){
             shuffleBlack();
         }
-        return blackDraw.get(randomIndex);
+        r.put(randomIndex, blackDiscard.get(randomIndex));
+        return r;
     }
     public void shuffleBlack(){
         blackDraw.putAll(blackDiscard);

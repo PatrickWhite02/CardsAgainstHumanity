@@ -2,21 +2,22 @@ package com;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
-public class PlayersHand extends ArrayList<String> {
+public class PlayersHand extends HashMap<Integer, String> {
     Deck deck = new Deck();
 
     public PlayersHand(){
-        this.addAll(Arrays.asList(deck.drawFiveWhite()));
+        this.putAll(deck.drawTenWhite());
     }
     public void drawCard(){
-        String c = deck.drawOneWhite();
-        add(c);
+        this.putAll(deck.drawOneWhite());
     }
     public void discard(Card c){
         remove(c);
     }
-    public ArrayList<String> getCards(){
+    public HashMap<Integer, String> getCards(){
         return this;
     }
 }
