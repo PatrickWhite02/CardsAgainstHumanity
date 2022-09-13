@@ -6,9 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PlayersHand extends HashMap<Integer, String> {
-    Deck deck = new Deck();
+    Deck deck;
 
-    public PlayersHand(){
+    public PlayersHand(Deck deck){
+        this.deck = deck;
         this.putAll(deck.drawTenWhite());
     }
     public void drawCard(){
