@@ -1,4 +1,4 @@
-package net.clientSide;;
+package net.clientSide;
 
 import com.Deck;
 

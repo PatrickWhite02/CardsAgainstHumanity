@@ -30,12 +30,12 @@ public class Main extends JPanel {
             createGame();
         }else{
             try {
-                guestGame();
+                client.startWaitForOpponentThread();
+                client.joinGame(tag);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        client.startWaitForOpponentThread();
         System.out.println(tag);
         myHand = new PlayersHand(deck);
         visibleHand = new VisibleHand(deck);
