@@ -39,7 +39,7 @@ public class WaitForOpponentThread extends Thread{
                 }
                 //signal that the host started the game, I'm going to need to pass that back into host so that I can break this though
                 else if(response.equals("S")){
-                    client.getWriter().println("HS");
+                    //client.getWriter().println("HS");
                     //start reading for input
                     client.getReadThread().start();
                     break;

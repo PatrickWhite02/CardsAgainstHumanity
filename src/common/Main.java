@@ -45,13 +45,15 @@ public class Main extends JPanel {
     public static void main(String[] args) {
         System.out.println("Join or host?");
         Scanner scanner = new Scanner(System.in);
-        if(scanner.nextLine().equals("Join")){
+        if(scanner.nextLine().equals("j")){
             tag =scanner.nextInt();
             Main main = new Main();
         }else{
             isHost = true;
             Main main = new Main();
-            int message = scanner.nextInt();
+            int message = Integer.parseInt(scanner.nextLine());
+            String start = scanner.nextLine();
+            System.out.println("S");
             client.startGame();
             sendMove(message);
         }

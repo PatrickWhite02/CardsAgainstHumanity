@@ -51,11 +51,11 @@ public class Client {
     //only the host will ever be able to call this method
     public boolean startGame(){
         System.out.println("Start game");
-        //if(enoughToStart){
+        if(enoughToStart){
             writer.println("S");
             return true;
-       // }
-        //return false;
+        }
+        return false;
     }
     public int createGame(){
         leader = true;

@@ -40,20 +40,20 @@ public class UserThread extends Thread{
                             //error code for game full
                             printWriter.println("-1");
                         }else {
-
+                            System.out.println("Game connected");
                             //code for game connected
                             printWriter.println("1");
-                            server.getAllUsersHashMap().get(tag).add(this);
                             //print the number of opponents
-                            printWriter.println("O:" + (server.getAllUsersHashMap().get(tag).size() - 1));
+                            System.out.println("O:" + (server.getAllUsersHashMap().get(tag).size()));
+                            printWriter.println("O:" + (server.getAllUsersHashMap().get(tag).size() + 1));
                             for (UserThread ut : server.getAllUsersHashMap().get(tag)) {
+                                //let them know someone joined
+                                ut.getPrintWriter().println("O:" + (server.getAllUsersHashMap().get(tag).size() + 1));
                                 ut.addOpponent(this);
                                 addOpponent(ut);
-                                //let them know someone joined
-                                if(ut != this){
-                                    ut.getPrintWriter().println("OJ");
-                                }
+                                ut.getPrintWriter().println("OJ");
                             }
+                            server.getAllUsersHashMap().get(tag).add(this);
                             break;
                         }
                     }else{
@@ -80,6 +80,7 @@ public class UserThread extends Thread{
                     }
                 }
             }
+            System.out.println("Broke first loop");
             //now that the user has a game, start echoing out to other users
             while(true){
                 String response = reader.readLine();

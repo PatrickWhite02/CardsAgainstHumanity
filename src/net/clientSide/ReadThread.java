@@ -25,8 +25,8 @@ public class ReadThread extends Thread{
         }
     }
     public void run(){
+        System.out.println("ReadThread started");
         while(true){
-            System.out.println("ReadThread started");
             try {
                 int response = Integer.parseInt(reader.readLine());
                 System.out.println(response);

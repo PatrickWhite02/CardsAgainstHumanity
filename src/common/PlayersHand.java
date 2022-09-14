@@ -12,9 +12,6 @@ public class PlayersHand extends HashMap<Integer, String> {
     public void drawCard(){
         this.putAll(deck.drawOneWhite());
     }
-    public void discard(Card c){
-        remove(c);
-    }
     public HashMap<Integer, String> getCards(){
         return this;
     }
