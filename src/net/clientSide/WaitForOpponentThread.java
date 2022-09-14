@@ -1,5 +1,7 @@
 package net.clientSide;
 
+import com.Main;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -31,6 +33,9 @@ public class WaitForOpponentThread extends Thread{
                 String response = reader.readLine();
                 System.out.println("WaitForOpponentThread got response: " + response);
                 numOpponents ++;
+                if(Main.getMyTurn() == -1){
+                    Main.setMyTurn(Integer.parseInt(response.substring(2)));
+                }
                 if(numOpponents >= 2){
                     client.setEnoughToStart();
                 }

@@ -11,9 +11,16 @@ public class Main extends JPanel {
     private static VisibleHand visibleHand;
     private static Deck deck;
     private static int whoTurn = 0;
-    private static int myTurn = 0;
+    private static int myTurn = -1;
     private static Client client;
     private static int tag;
+    public static void setMyTurn(int i){
+        System.out.println("My turn: " + i);
+        myTurn = i;
+    }
+    public static int getMyTurn(){
+        return myTurn;
+    }
     private static boolean isHost = false;
 
     public Main (){
@@ -50,6 +57,7 @@ public class Main extends JPanel {
             Main main = new Main();
         }else{
             isHost = true;
+            myTurn = 1;
             Main main = new Main();
             int message = Integer.parseInt(scanner.nextLine());
             String start = scanner.nextLine();
