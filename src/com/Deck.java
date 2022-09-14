@@ -45,7 +45,6 @@ public class Deck{
                 whiteDraw.put(whiteCount, split[1]);
                 whiteKeysAvailable.add(whiteCount);
                 whiteCount++;
-                System.out.println(whiteDraw.get(800));
             }
         }
     }
@@ -61,7 +60,8 @@ public class Deck{
             //move the card into the "Currently held" pile
             whiteKeysUnavailable.add(randomIndex);
             currentlyHeld.put(randomIndex, whiteDraw.get(randomIndex));
-            whiteKeysAvailable.remove(randomIndex);
+            int finalRandomIndex = randomIndex;
+            whiteKeysAvailable.removeIf(t -> t == finalRandomIndex);
             whiteDraw.remove(randomIndex);
         }
         if(whiteDraw.size() <= 10){

@@ -61,7 +61,7 @@ public class Main extends JPanel {
             Main main = new Main();
             int message = Integer.parseInt(scanner.nextLine());
             String start = scanner.nextLine();
-            System.out.println("S");
+            System.out.println("Start");
             client.startGame();
             sendMove(message);
         }

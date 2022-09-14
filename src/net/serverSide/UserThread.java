@@ -51,7 +51,6 @@ public class UserThread extends Thread{
                                 ut.getPrintWriter().println("O:" + (server.getAllUsersHashMap().get(tag).size() + 1));
                                 ut.addOpponent(this);
                                 addOpponent(ut);
-                                ut.getPrintWriter().println("OJ");
                             }
                             server.getAllUsersHashMap().get(tag).add(this);
                             break;

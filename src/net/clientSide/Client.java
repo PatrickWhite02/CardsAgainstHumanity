@@ -51,7 +51,9 @@ public class Client {
     //only the host will ever be able to call this method
     public boolean startGame(){
         System.out.println("Start game");
+        System.out.println("Enough to start: " + enoughToStart);
         if(enoughToStart){
+            System.out.println(true);
             writer.println("S");
             return true;
         }

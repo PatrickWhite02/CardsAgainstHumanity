@@ -12,7 +12,7 @@ public class WaitForOpponentThread extends Thread{
     private BufferedReader reader;
     private PrintWriter writer;
     private Client client;
-    int numOpponents = 0;
+    int numOpponents = 1;
 
     public WaitForOpponentThread(Socket socket, Client client){
         try {
@@ -30,18 +30,21 @@ public class WaitForOpponentThread extends Thread{
         label:
         while(true){
             try{
+                System.out.println("WaitThread waiting for response");
                 String response = reader.readLine();
                 System.out.println("WaitForOpponentThread got response: " + response);
-                numOpponents ++;
+                numOpponents = Integer.parseInt(response.substring(2));
+                System.out.println(numOpponents);
                 if(Main.getMyTurn() == -1){
-                    Main.setMyTurn(Integer.parseInt(response.substring(2)));
+                    Main.setMyTurn(numOpponents);
                 }
                 if(numOpponents >= 2){
                     client.setEnoughToStart();
                 }
                 //the user has 9 opponents, game full
                 switch (response) {
-                    case "0:9":
+                    case "0:10":
+                        client.getReadThread().start();
                         break label;
 
                     //signal that the host started the game, I'm going to need to pass that back into host so that I can break this though
