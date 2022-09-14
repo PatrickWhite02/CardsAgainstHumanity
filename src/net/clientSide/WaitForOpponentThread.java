@@ -25,6 +25,7 @@ public class WaitForOpponentThread extends Thread{
         }
     }
     public void run(){
+        label:
         while(true){
             try{
                 String response = reader.readLine();
@@ -34,19 +35,20 @@ public class WaitForOpponentThread extends Thread{
                     client.setEnoughToStart();
                 }
                 //the user has 9 opponents, game full
-                if(response.equals("0:9")){
-                    break;
-                }
-                //signal that the host started the game, I'm going to need to pass that back into host so that I can break this though
-                else if(response.equals("S")){
-                    //client.getWriter().println("HS");
-                    //start reading for input
-                    client.getReadThread().start();
-                    break;
-                }else if(response.equals("HS")){
-                    //start reading for input
-                    client.getReadThread().start();
-                    break;
+                switch (response) {
+                    case "0:9":
+                        break label;
+
+                    //signal that the host started the game, I'm going to need to pass that back into host so that I can break this though
+                    case "S":
+                        //client.getWriter().println("HS");
+                        //start reading for input
+                        client.getReadThread().start();
+                        break label;
+                    case "HS":
+                        //start reading for input
+                        client.getReadThread().start();
+                        break label;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
