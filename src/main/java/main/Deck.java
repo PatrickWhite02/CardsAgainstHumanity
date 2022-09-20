@@ -36,7 +36,7 @@ public class Deck{
                 if(split.length == 2){
                     blackDraw.put(blackCount, split[1]);
                 }else{
-                    blackDraw.put(blackCount, split[1] + split[2]);
+                    blackDraw.put(blackCount, split[1] + "`" + split[2]);
                 }
                 blackKeysAvailable.add(blackCount);
                 blackCount++;
@@ -120,5 +120,9 @@ public class Deck{
     public void opponentTookWhiteCard(int i){
         currentlyHeld.put(i, whiteDraw.get(i));
         whiteDraw.remove(i);
+        //reshuffle if the deck ever dips below 10
+        if(whiteDraw.size() <= 10){
+            shuffleWhite();
+        }
     }
 }

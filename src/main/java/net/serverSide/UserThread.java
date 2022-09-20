@@ -41,11 +41,11 @@ public class UserThread extends Thread{
                             printWriter.println("-1");
                         }else {
                             System.out.println("Game connected");
+                            printWriter.println("1");
                             //print the number of opponents
                             System.out.println("O:" + (server.getAllUsersHashMap().get(tag).size() + 1));
                             printWriter.println("O:" + (server.getAllUsersHashMap().get(tag).size() + 1));
                             //code for game connected
-                            printWriter.println("1");
                             for (UserThread ut : server.getAllUsersHashMap().get(tag)) {
                                 //let them know someone joined
                                 ut.getPrintWriter().println("O:" + (server.getAllUsersHashMap().get(tag).size() + 1));

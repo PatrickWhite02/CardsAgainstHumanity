@@ -1,6 +1,7 @@
 package net.clientSide;
 
 import main.Deck;
+import main.Main;
 
 import java.io.*;
 import java.net.Socket;
@@ -35,7 +36,7 @@ public class Client {
         try {
             this.deck = deck;
             socket = new Socket(host, port);
-            readThread = new ReadThread(deck, socket);
+            readThread = new ReadThread(this, deck, socket);
             output = socket.getOutputStream();
             input = socket.getInputStream();
             reader = new BufferedReader(new InputStreamReader(input));
@@ -47,6 +48,12 @@ public class Client {
     public void sendMove(int i){
         System.out.println("Sending move: " + i);
         writer.println(i);
+    }
+    public void sendTookCard(int i){
+        writer.println(Main.getMyTurn() + "tk:" + i);
+    }
+    public void sendAllPlayersDealt(){
+        writer.println("APD");
     }
     //only the host will ever be able to call this method
     public boolean startGame(){
@@ -64,6 +71,9 @@ public class Client {
         int key = generateKey();
         writer.println(key);
         return key;
+    }
+    public void sendTurnDone(){
+        writer.println("D");
     }
     public void startWaitForOpponentThread(){
         waitForOpponentThread = new WaitForOpponentThread(socket, this);
@@ -87,6 +97,25 @@ public class Client {
     public int joinGame(int tag) throws IOException {
         writer.println("J");
         writer.println(tag);
-        return Integer.parseInt(reader.readLine());
+        int status = Integer.parseInt(reader.readLine());
+        while(true){
+            String response = reader.readLine();
+            if(response.length() == 3){
+                int numOpponents = Integer.parseInt(response.substring(2));
+                System.out.println(numOpponents);
+                if(Main.getMyTurn() == 1 && !isHost()){
+                    Main.setMyTurn(numOpponents);
+                }
+                if(numOpponents >= 2){
+                    setEnoughToStart();
+                }
+            }
+            if(response.equals("0:10") || response.equals("S") || response.equals("HS")){
+                writer.println("S");
+                readThread.start();
+                break;
+            }
+        }
+        return status;
     }
 }

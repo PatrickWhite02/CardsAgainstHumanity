@@ -27,7 +27,6 @@ public class WaitForOpponentThread extends Thread{
         }
     }
     public void run(){
-        label:
         while(true){
             try{
                 System.out.println("WaitThread waiting for response");
@@ -35,8 +34,9 @@ public class WaitForOpponentThread extends Thread{
                 System.out.println("WaitForOpponentThread got response: " + response);
                 if(response.length() == 3){
                     numOpponents = Integer.parseInt(response.substring(2));
+                    Main.setMaxTurn(numOpponents);
                     System.out.println(numOpponents);
-                    if(Main.getMyTurn() == -1){
+                    if(Main.getMyTurn() == 1 && !client.isHost()){
                         Main.setMyTurn(numOpponents);
                     }
                     if(numOpponents >= 2){
@@ -44,22 +44,16 @@ public class WaitForOpponentThread extends Thread{
                     }
                 }
                 //the user has 9 opponents, game full
-                switch (response) {
-                    case "0:10":
-                        client.getReadThread().start();
-                        break label;
-
-                    //signal that the host started the game, I'm going to need to pass that back into host so that I can break this though
-                    case "S":
-                        //client.getWriter().println("HS");
-                        //start reading for input
-                        client.getReadThread().start();
-                        break label;
-                    case "HS":
-                        //start reading for input
-                        client.getReadThread().start();
-                        break label;
+                if(response.equals("0:10") || response.equals("S") || response.equals("HS")){
+                    client.getReadThread().start();
+                    Main.drawTenWhite();
+                    client.sendTurnDone();
+                    break;
                 }
+                //signal that the host started the game, I'm going to need to pass that back into host so that I can break this though
+                //client.getWriter().println("HS");
+                //start reading for input
+                //start reading for input
             } catch (IOException e) {
                 e.printStackTrace();
             }
