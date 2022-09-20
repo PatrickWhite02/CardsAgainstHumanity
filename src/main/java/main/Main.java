@@ -59,6 +59,7 @@ public class Main extends JPanel {
             isHost = true;
             myTurn = 1;
             Main main = new Main();
+            client.startWaitForOpponentThread();
             int message = Integer.parseInt(scanner.nextLine());
             String start = scanner.nextLine();
             System.out.println("Start");

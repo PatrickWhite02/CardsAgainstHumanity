@@ -33,13 +33,15 @@ public class WaitForOpponentThread extends Thread{
                 System.out.println("WaitThread waiting for response");
                 String response = reader.readLine();
                 System.out.println("WaitForOpponentThread got response: " + response);
-                numOpponents = Integer.parseInt(response.substring(2));
-                System.out.println(numOpponents);
-                if(Main.getMyTurn() == -1){
-                    Main.setMyTurn(numOpponents);
-                }
-                if(numOpponents >= 2){
-                    client.setEnoughToStart();
+                if(response.length() == 3){
+                    numOpponents = Integer.parseInt(response.substring(2));
+                    System.out.println(numOpponents);
+                    if(Main.getMyTurn() == -1){
+                        Main.setMyTurn(numOpponents);
+                    }
+                    if(numOpponents >= 2){
+                        client.setEnoughToStart();
+                    }
                 }
                 //the user has 9 opponents, game full
                 switch (response) {
