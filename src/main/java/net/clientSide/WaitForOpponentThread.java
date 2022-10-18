@@ -13,7 +13,7 @@ public class WaitForOpponentThread extends Thread{
     private PrintWriter writer;
     private Client client;
     int numOpponents = 1;
-
+    boolean keepRunning;
     public WaitForOpponentThread(Socket socket, Client client){
         try {
             this.socket= socket;
@@ -46,8 +46,6 @@ public class WaitForOpponentThread extends Thread{
                 //the user has 9 opponents, game full
                 if(response.equals("0:10") || response.equals("S") || response.equals("HS")){
                     client.getReadThread().start();
-                    Main.drawTenWhite();
-                    client.sendTurnDone();
                     break;
                 }
                 //signal that the host started the game, I'm going to need to pass that back into host so that I can break this though

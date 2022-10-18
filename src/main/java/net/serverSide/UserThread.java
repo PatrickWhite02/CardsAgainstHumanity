@@ -21,6 +21,7 @@ public class UserThread extends Thread{
         this.socket = socket;
         this.server = server;
     }
+    private int tag;
     public void run(){
         try {
             InputStream in = socket.getInputStream();
@@ -33,7 +34,7 @@ public class UserThread extends Thread{
                 System.out.println(response);
                 //signal that user is hosting
                 if(response.equals("J")){
-                    int tag = Integer.parseInt(reader.readLine());
+                    tag = Integer.parseInt(reader.readLine());
                     System.out.println(tag);
                     if(server.getAllUsersHashMap().containsKey(tag)){
                         if(server.getAllUsersHashMap().get(tag).size() == 10){
@@ -62,7 +63,7 @@ public class UserThread extends Thread{
                 }
                 //host
                 else{
-                    int tag = Integer.parseInt(response);
+                    tag = Integer.parseInt(response);
                     //second input will be the tag
                     if(!server.getAllUsersHashMap().containsKey(tag)){
                         //print whether or not they were successful
@@ -83,7 +84,8 @@ public class UserThread extends Thread{
             //now that the user has a game, start echoing out to other users
             while(true){
                 String response = reader.readLine();
-                System.out.println(response);
+                System.out.println(tag);
+                System.out.println("User #" + server.getAllUsersHashMap().get(tag).indexOf(this) + "Sent: " + response);
                 //terminate
                 if(response.equals("T")){
                     for(UserThread ut : opponents){

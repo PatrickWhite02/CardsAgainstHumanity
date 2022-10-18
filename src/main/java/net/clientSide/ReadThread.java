@@ -41,7 +41,10 @@ public class ReadThread extends Thread{
                     System.out.println("whoDrew = " + whoDrew);
                     deck.opponentTookWhiteCard(card);
                 }else if(response.equals("APD")){
-
+                    System.out.println("APD");
+                    if(Main.getMyTurn() == Main.getWhoTurn()){
+                        Main.takeBlackCard();
+                    }
                 }
                 else if(response.equals("D")){
                     Main.increaseWhoTurn();
@@ -49,12 +52,23 @@ public class ReadThread extends Thread{
                         System.out.println("HIT");
                         if(Main.getMyTurn() == Main.getWhoTurn()){
                             Main.drawTenWhite();
-                            System.out.println("ReadThread sending: D");
-                            client.sendTurnDone();
                         }
                         if(Main.getMyTurn() == Main.getMaxTurn()){
-                            client.sendAllPlayersDealt();
+                            System.out.println("Everyone has Cards now");
                         }
+                    }
+                }else if(response.contains("bd:")){
+                    int card = Integer.parseInt(response.substring(4));
+                    deck.opponentTookBlackCard(card);
+                    Main.getVisibleHand().setBlackCard(card, deck.getBlackCard(card));
+                    Main.askUserToPick(card);
+                }else if (!response.equals("S")){
+                    int i = Integer.parseInt(response.substring(2));
+                    deck.opponentTookWhiteCard(i);
+                    Main.getVisibleHand().put(i, deck.getWhiteCard(i));
+                    //
+                    if(Main.getVisibleHand().size() == Main.getMaxTurn() -1){
+
                     }
                 }
             } catch (IOException e) {

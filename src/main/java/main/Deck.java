@@ -9,6 +9,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Deck{
+    public String getBlackCard(int i) {
+        if(blackDraw.containsKey(i)){
+            return blackDraw.get(i);
+        }return currentBlackCard.get(i);
+    }
+    public String getWhiteCard(int i){
+        if(whiteDraw.containsKey(i)){
+            return whiteDraw.get(i);
+        }return currentlyHeld.get(i);
+    }
     public Map<Integer, String> blackDraw = new HashMap<>();
     public ArrayList<Integer> blackKeysAvailable = new ArrayList<>();
     public ArrayList<Integer> blackKeysUnavailable = new ArrayList<>();
@@ -18,6 +28,7 @@ public class Deck{
     public Map<Integer, String> whiteDraw = new HashMap<>();
     public ArrayList<Integer> whiteKeysAvailable = new ArrayList<>();
     public ArrayList<Integer> whiteKeysUnavailable = new ArrayList<>();
+    public Map <Integer, String> currentBlackCard = new HashMap<>();
 
     private Map<Integer, String> whiteDiscard = new HashMap<>();
     public Deck(){
@@ -97,19 +108,17 @@ public class Deck{
         whiteKeysAvailable.addAll(whiteKeysUnavailable);
         whiteKeysUnavailable.clear();
     }
-    public HashMap<Integer, String> drawBlackCard(){
-        HashMap<Integer, String> r = new HashMap<>();
+    public int drawBlackCard(){
         int randomIndex  = (int) (Math.random() * blackDraw.size());
         randomIndex = blackKeysAvailable.get(randomIndex);
         blackKeysUnavailable.add(randomIndex);
         blackKeysAvailable.remove(randomIndex);
-        blackDiscard.put(randomIndex, blackDraw.get(randomIndex));
+        currentBlackCard.put(randomIndex, blackDraw.get(randomIndex));
         blackDraw.remove(randomIndex);
         if(blackDraw.size() <= 5){
             shuffleBlack();
         }
-        r.put(randomIndex, blackDiscard.get(randomIndex));
-        return r;
+        return randomIndex;
     }
     public void shuffleBlack(){
         blackDraw.putAll(blackDiscard);
@@ -124,5 +133,16 @@ public class Deck{
         if(whiteDraw.size() <= 10){
             shuffleWhite();
         }
+    }
+    public void opponentTookBlackCard(int i){
+        currentBlackCard.put(i, blackDraw.get(i));
+        blackDraw.remove(i);
+        if(blackDraw.size() <= 5){
+            shuffleBlack();
+        }
+    }
+    public void playWhiteCard(int i){
+        whiteDiscard.put(i, currentlyHeld.get(i));
+        currentlyHeld.remove(i);
     }
 }

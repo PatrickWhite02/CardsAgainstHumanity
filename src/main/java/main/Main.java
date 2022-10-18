@@ -12,9 +12,13 @@ public class Main extends JPanel {
     }
 
     private static PlayersHand myHand;
-    private static VisibleHand visibleHand;
-    private static Deck deck = new Deck();
 
+    public static VisibleHand getVisibleHand() {
+        return visibleHand;
+    }
+
+    private static Deck deck = new Deck();
+    private static VisibleHand visibleHand = new VisibleHand(deck);
     public static int getWhoTurn() {
         return whoTurn;
     }
@@ -71,20 +75,43 @@ public class Main extends JPanel {
         client.joinGame(tag);
     }
     public static void drawTenWhite(){
+        System.out.println("WhoTurn = " + whoTurn);
         myHand = new PlayersHand(deck);
         for(int i : myHand.keySet()){
             client.sendTookCard(i);
             System.out.println(i + " " + myHand.get(i));
         }
+        System.out.println("Main is sending D");
         client.sendTurnDone();
+        increaseWhoTurn();
+        System.out.println("myTurn: " + myTurn);
+        System.out.println("maxTurn:" + maxTurn);
+        if(myTurn == maxTurn){
+            client.sendAllPlayersDealt();
+        }
     }
-
+    public static void takeBlackCard(){
+        int prompt = deck.drawBlackCard();
+        System.out.println("prompt: " + prompt + " " + deck.getBlackCard(prompt));
+        client.sendBlackDrawn(prompt);
+        client.startWaitingForSubmissions();
+    }
+    public void takeTurn(){
+        visibleHand.clear();
+    }
+    public static void askUserToPick(int i){
+        visibleHand.clear();
+        System.out.println("black card: " + deck.getBlackCard(i));
+        for(int c : myHand.keySet()){
+            System.out.println(c + " " + myHand.get(c));
+        }
+        Scanner scanner = new Scanner(System.in);
+        int selection = scanner.nextInt();
+        visibleHand.add(myHand.get(selection));
+        client.sendMove(selection);
+    }
     public void createGame() {
         System.out.println(client.createGame());
-    }
-
-    private static void sendMove(int i) {
-        client.sendMove(i);
     }
 
     public static void main(String[] args) throws IOException {

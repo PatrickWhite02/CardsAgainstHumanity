@@ -32,6 +32,7 @@ public class Client {
     private boolean enoughToStart = false;
     public void setEnoughToStart(){ enoughToStart = true;}
     private WaitForOpponentThread waitForOpponentThread;
+    private WaitForSubmissionThread waitForSubmissionThread;
     public Client(Deck deck){
         try {
             this.deck = deck;
@@ -47,7 +48,7 @@ public class Client {
     }
     public void sendMove(int i){
         System.out.println("Sending move: " + i);
-        writer.println(i);
+        writer.println(Main.getMyTurn()  + ": " + i);
     }
     public void sendTookCard(int i){
         writer.println(Main.getMyTurn() + "tk:" + i);
@@ -62,6 +63,8 @@ public class Client {
         if(enoughToStart){
             System.out.println(true);
             writer.println("S");
+            //draw the 10 cards one player at a time, start with the host since they're the only one who'll call this method
+            Main.drawTenWhite();
             return true;
         }
         return false;
@@ -94,6 +97,12 @@ public class Client {
         }
         return -1;
     }
+    public void sendBlackDrawn(int i){
+        writer.println(Main.getMyTurn() + "bd:" + i);
+    }
+    public void startWaitingForSubmissions(){
+        waitForSubmissionThread = new WaitForSubmissionThread(Main.getMaxTurn()-1, Main.getMyTurn() == Main.getWhoTurn());
+    }
     public int joinGame(int tag) throws IOException {
         writer.println("J");
         writer.println(tag);
@@ -103,7 +112,8 @@ public class Client {
             if(response.length() == 3){
                 int numOpponents = Integer.parseInt(response.substring(2));
                 System.out.println(numOpponents);
-                if(Main.getMyTurn() == 1 && !isHost()){
+                Main.setMaxTurn(numOpponents);
+                if(Main.getMyTurn() == 1){
                     Main.setMyTurn(numOpponents);
                 }
                 if(numOpponents >= 2){
