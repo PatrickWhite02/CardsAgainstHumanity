@@ -63,7 +63,7 @@ public class ReadThread extends Thread{
                     Main.getVisibleHand().setBlackCard(card, deck.getBlackCard(card));
                     Main.askUserToPick(card);
                 }else if (!response.equals("S")){
-                    int i = Integer.parseInt(response.substring(2));
+                    int i = Integer.parseInt(response.substring(3));
                     deck.opponentTookWhiteCard(i);
                     Main.getVisibleHand().put(i, deck.getWhiteCard(i));
                     //
