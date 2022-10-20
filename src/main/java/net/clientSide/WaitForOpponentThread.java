@@ -36,7 +36,7 @@ public class WaitForOpponentThread extends Thread{
                     numOpponents = Integer.parseInt(response.substring(2));
                     Main.setMaxTurn(numOpponents);
                     System.out.println(numOpponents);
-                    if(Main.getMyTurn() == 1 && !client.isHost()){
+                    if(Main.getMyTurn() == 0 && !client.isHost()){
                         Main.setMyTurn(numOpponents);
                     }
                     if(numOpponents >= 2){
@@ -44,7 +44,9 @@ public class WaitForOpponentThread extends Thread{
                     }
                 }
                 //the user has 9 opponents, game full
-                if(response.equals("0:10") || response.equals("S") || response.equals("HS")){
+                if(response.equals("0:9") || response.equals("S") || response.equals("HS")){
+                    System.out.println("WaitForOpponent Thread about to break");
+                    Main.allPlayersIn();
                     client.getReadThread().start();
                     break;
                 }

@@ -1,5 +1,7 @@
 package net.clientSide;
 
+import main.Main;
+
 public class WaitForSubmissionThread extends Thread{
     int numWaitingFor;
     boolean isMyTurn;
@@ -13,8 +15,10 @@ public class WaitForSubmissionThread extends Thread{
         currentCount++;
     }
     public void run(){
+        //wait until all submissions are in, then prompt the czar to pick a winner
         while(currentCount != numWaitingFor){
 
         }
+        Main.pickWinner();
     }
 }

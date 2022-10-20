@@ -4,6 +4,7 @@ import net.clientSide.Client;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main extends JPanel {
@@ -19,18 +20,22 @@ public class Main extends JPanel {
 
     private static Deck deck = new Deck();
     private static VisibleHand visibleHand = new VisibleHand(deck);
+    private static int [] scoreBoard;
+    public static void increaseScore(int whoWon){
+        scoreBoard[whoWon]++;
+    }
     public static int getWhoTurn() {
         return whoTurn;
     }
 
-    private static int whoTurn = 1;
+    private static int whoTurn = 0;
     public static void increaseWhoTurn(){
         whoTurn++;
         if(whoTurn == maxTurn + 1){
-            whoTurn = 1;
+            whoTurn = 0;
         }
     }
-    private static int myTurn = 1;
+    private static int myTurn = 0;
 
     public static int getMaxTurn() {
         return maxTurn;
@@ -94,7 +99,13 @@ public class Main extends JPanel {
         int prompt = deck.drawBlackCard();
         System.out.println("prompt: " + prompt + " " + deck.getBlackCard(prompt));
         client.sendBlackDrawn(prompt);
-        client.startWaitingForSubmissions();
+    }
+    public static void allPlayersIn(){
+        System.out.println("All PLayers in!");
+        scoreBoard = new int[maxTurn + 1];
+        for(int i = 0; i < scoreBoard.length; i++){
+            scoreBoard[i] = 0;
+        }
     }
     public void takeTurn(){
         visibleHand.clear();
@@ -107,13 +118,23 @@ public class Main extends JPanel {
         }
         Scanner scanner = new Scanner(System.in);
         int selection = scanner.nextInt();
-        visibleHand.add(myHand.get(selection));
+        visibleHand.put(myTurn, myHand.get(selection));
         client.sendMove(selection);
     }
     public void createGame() {
         System.out.println(client.createGame());
     }
-
+    public static void pickWinner(){
+        System.out.println("Pick a winner from the following submissions: ");
+        int c = 1;
+        for(String s : visibleHand.values()){
+            System.out.println(c + " " + s);
+            c++;
+        }
+        Scanner scanner = new Scanner(System.in);
+        int winner = scanner.nextInt();
+        client.sendWinner(winner);
+    }
     public static void main(String[] args) throws IOException {
         System.out.println("Join or host?");
         Scanner scanner = new Scanner(System.in);

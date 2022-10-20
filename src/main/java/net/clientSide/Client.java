@@ -100,8 +100,8 @@ public class Client {
     public void sendBlackDrawn(int i){
         writer.println(Main.getMyTurn() + "bd:" + i);
     }
-    public void startWaitingForSubmissions(){
-        waitForSubmissionThread = new WaitForSubmissionThread(Main.getMaxTurn()-1, Main.getMyTurn() == Main.getWhoTurn());
+    public void sendWinner(int w){
+        writer.println("w: " + w);
     }
     public int joinGame(int tag) throws IOException {
         writer.println("J");
@@ -113,15 +113,16 @@ public class Client {
                 int numOpponents = Integer.parseInt(response.substring(2));
                 System.out.println(numOpponents);
                 Main.setMaxTurn(numOpponents);
-                if(Main.getMyTurn() == 1){
+                if(Main.getMyTurn() == 0){
                     Main.setMyTurn(numOpponents);
                 }
                 if(numOpponents >= 2){
                     setEnoughToStart();
                 }
             }
-            if(response.equals("0:10") || response.equals("S") || response.equals("HS")){
+            if(response.equals("0:9") || response.equals("S") || response.equals("HS")){
                 writer.println("S");
+                Main.allPlayersIn();
                 readThread.start();
                 break;
             }
