@@ -5,6 +5,7 @@ import net.clientSide.Client;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main extends JPanel {
@@ -36,7 +37,7 @@ public class Main extends JPanel {
         }
     }
     private static int myTurn = 0;
-
+    private static HashMap<Integer, String> newCard;
     public static int getMaxTurn() {
         return maxTurn;
     }
@@ -120,6 +121,16 @@ public class Main extends JPanel {
         System.out.println("Enter the number you want to play");
         int selection = scanner.nextInt();
         System.out.println("Confirmed");
+        //remove the card they played from their hand
+        myHand.remove(selection);
+        //draw a new one in its place
+        newCard = deck.drawOneWhite();
+        //add that card to the hand
+        myHand.putAll(newCard);
+        //transmit that integer value. Not the most efficient way of accessing the int value, but it works
+        for(int j : newCard.keySet()){
+            client.sendTookCard(j);
+        }
         visibleHand.put(myTurn, myHand.get(selection));
         client.sendMove(selection);
     }
