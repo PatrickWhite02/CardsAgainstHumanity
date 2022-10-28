@@ -66,6 +66,11 @@ public class ReadThread extends Thread{
                     int winningPlayer = Integer.parseInt(response.substring(3));
                     System.out.println("Winning card: " + Main.getVisibleHand().get(winningPlayer) + ", Played by: " + winningPlayer);
                     Main.increaseScore(winningPlayer);
+                    Main.increaseWhoTurn();
+                    Main.clearVisibleHand();
+                    if(Main.getMyTurn() == Main.getWhoTurn()){
+                        Main.takeBlackCard();
+                    }
                 }
                 else if (!response.equals("S")){
                     System.out.println("Received play: " + response);
@@ -73,6 +78,7 @@ public class ReadThread extends Thread{
                     System.out.println("Player number : " + response.substring(0,1));
                     Main.getVisibleHand().put(Integer.valueOf(response.substring(0,1)), deck.getWhiteCard(i));
                     //if it's our turn and all cards are in, then prompt them to pick a winner
+                    System.out.println("Main.getVisibleHand().size: " + Main.getVisibleHand().size());
                     if((Main.getVisibleHand().size() == Main.getMaxTurn()) && (Main.getMyTurn() == Main.getWhoTurn())){
                         Main.pickWinner();
                     }

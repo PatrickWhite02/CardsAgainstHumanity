@@ -117,7 +117,9 @@ public class Main extends JPanel {
             System.out.println(c + " " + myHand.get(c));
         }
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the number you want to play");
         int selection = scanner.nextInt();
+        System.out.println("Confirmed");
         visibleHand.put(myTurn, myHand.get(selection));
         client.sendMove(selection);
     }
@@ -134,6 +136,11 @@ public class Main extends JPanel {
         Scanner scanner = new Scanner(System.in);
         int winner = scanner.nextInt();
         client.sendWinner(winner);
+        increaseWhoTurn();
+        clearVisibleHand();
+    }
+    public static void clearVisibleHand(){
+        visibleHand.clear();
     }
     public static void main(String[] args) throws IOException {
         System.out.println("Join or host?");
