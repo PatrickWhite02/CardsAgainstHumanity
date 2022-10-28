@@ -65,7 +65,13 @@ public class ReadThread extends Thread{
                 } else if (response.contains("w: ")){
                     int winningPlayer = Integer.parseInt(response.substring(3));
                     System.out.println("Winning card: " + Main.getVisibleHand().get(winningPlayer) + ", Played by: " + winningPlayer);
+                    //update scoreboard
                     Main.increaseScore(winningPlayer);
+                    //print the scoreboard
+                    System.out.println("Scores: \n\n ");
+                    for(int i = 0; i < Main.getScoreBoard().length; i ++){
+                        System.out.println(i + ": " + Main.getScoreBoard()[i]);
+                    }
                     Main.increaseWhoTurn();
                     Main.clearVisibleHand();
                     if(Main.getMyTurn() == Main.getWhoTurn()){

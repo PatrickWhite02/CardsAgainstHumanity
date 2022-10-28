@@ -21,6 +21,11 @@ public class Main extends JPanel {
 
     private static Deck deck = new Deck();
     private static VisibleHand visibleHand = new VisibleHand(deck);
+
+    public static int[] getScoreBoard() {
+        return scoreBoard;
+    }
+
     private static int [] scoreBoard;
     public static void increaseScore(int whoWon){
         scoreBoard[whoWon]++;
@@ -139,16 +144,15 @@ public class Main extends JPanel {
     }
     public static void pickWinner(){
         System.out.println("Pick a winner from the following submissions: ");
-        int c = 1;
-        for(String s : visibleHand.values()){
-            System.out.println(c + " " + s);
-            c++;
+        for(int i : visibleHand.keySet()){
+            System.out.println(i + " " + visibleHand.get(i));
         }
         Scanner scanner = new Scanner(System.in);
         int winner = scanner.nextInt();
         client.sendWinner(winner);
         increaseWhoTurn();
         clearVisibleHand();
+        increaseScore(winner);
     }
     public static void clearVisibleHand(){
         visibleHand.clear();
