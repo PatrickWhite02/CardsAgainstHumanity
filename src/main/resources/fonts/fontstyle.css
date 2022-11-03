@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'NeueHelvetica';
+    src: url('fonts/NeueHelveticaBQ=Bold.otf');
+}
+
+.label {
+    -fx-font-family: 'NeueHelvetica';
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+}
