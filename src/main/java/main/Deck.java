@@ -35,7 +35,7 @@ public class Deck{
         setUpLists();
     }
     public void setUpLists(){
-        InputStream inputStream = Deck.class.getClassLoader().getResourceAsStream("cards/allCards.txt");
+        InputStream inputStream = Deck.class.getClassLoader().getResourceAsStream("allCards.txt");
         String mass = new BufferedReader(new InputStreamReader(inputStream)).lines().collect(Collectors.joining("\n"));
         String [] rawData = mass.split("\n");
         int blackCount = 0;
