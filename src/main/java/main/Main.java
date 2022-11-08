@@ -2,13 +2,12 @@ package main;
 
 import net.clientSide.Client;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class Main extends JPanel {
+public class Main {
     public static PlayersHand getMyHand() {
         return myHand;
     }
